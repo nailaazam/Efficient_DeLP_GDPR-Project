@@ -7,4 +7,6 @@ risky_company(C) -< closing(C).
 good_price(acme).
 in_fusion(acme,steel). 
 strong(steel). 
+weak(steel). 
+
 
