@@ -1,8 +1,8 @@
-buy_stock(C) -< good_price(C).
-~buy_stock(C) -< good_price(C), risky_company(C).
-risky_company(C) -< in_fusion(C,D).
-risky_company(C) -< closing(C).
-~risky_company(C) -< in_fusion(C,D), strong(D).
+1: buy_stock(C) <- good_price(C).
+2: ~buy_stock(C) -< good_price(C), risky_company(C).
+3: risky_company(C) -< in_fusion(C,D).
+4: risky_company(C) -< closing(C).
+6: ~risky_company(C) -< in_fusion(C,D), strong(D).
 
 good_price(acme).
 in_fusion(acme,steel). 

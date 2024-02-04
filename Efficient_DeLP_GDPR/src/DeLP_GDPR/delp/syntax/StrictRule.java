@@ -1,7 +1,6 @@
 package DeLP_GDPR.delp.syntax;
 
 import DeLP_GDPR.logics.commons.syntax.RelationalFormula;
-
 import DeLP_GDPR.logics.commons.syntax.interfaces.Term;
 import DeLP_GDPR.logics.fol.syntax.FolFormula;
 

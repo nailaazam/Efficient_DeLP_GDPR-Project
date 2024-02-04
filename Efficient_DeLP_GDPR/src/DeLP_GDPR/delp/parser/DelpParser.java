@@ -189,7 +189,6 @@ public class DelpParser extends Parser<DefeasibleLogicProgram,Formula> implement
                                                        body.add(b);
       }
       jj_consume_token(8);
-      
                             delp.add(new DefeasibleRule(lit,body));
       break;
     default:

@@ -326,3 +326,20 @@ First run ignored
 Mean: 13.0 milliseconds
 Standard Deviation: 3.7416573867739413
 ---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: buy_stock(acme)
+YES 40
+YES 5
+YES 3
+YES 4
+YES 4
+YES 4
+YES 3
+YES 3
+YES 2
+YES 4
+
+First run ignored
+Mean: 3.5555555555555554 milliseconds
+Standard Deviation: 0.831479419283098
+---End of test-cases---

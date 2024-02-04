@@ -19,6 +19,8 @@ public interface DelpParserConstants {
 
   /* Lexical state. */
   int DEFAULT = 0;
+  
+  int INTEGER = 16;
 
   /* Literal token values. */
   String[] tokenImage = {

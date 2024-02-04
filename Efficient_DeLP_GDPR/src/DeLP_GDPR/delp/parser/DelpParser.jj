@@ -96,6 +96,7 @@ PARSER_END(DelpParser)
 SKIP:  { " " | "\t" | "\n" | "\r" | <"%" (~["\n","\r"])* ("\n"|"\r")> }
 TOKEN: {
     <NAME:   ["a"-"z","A"-"Z"] (["a"-"z","A"-"Z","_","-","0"-"9"])*>
+|   <INTEGER: (["0"-"9"])+>
 |  <PRIORITY: ">" (<QUOTED> | <NAME> | <NUMBER>)*>
 |   <QUOTED: "\"" (
                 "\\" ~[]     //any escaped character
