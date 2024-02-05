@@ -97,6 +97,8 @@ SKIP:  { " " | "\t" | "\n" | "\r" | <"%" (~["\n","\r"])* ("\n"|"\r")> }
 TOKEN: {
     <NAME:   ["a"-"z","A"-"Z"] (["a"-"z","A"-"Z","_","-","0"-"9"])*>
 |   <INTEGER: (["0"-"9"])+>
+|   < DIGIT : ["0" - "9"] >
+   < PRIORITY : (DIGIT)+ >
 |  <PRIORITY: ">" (<QUOTED> | <NAME> | <NUMBER>)*>
 |   <QUOTED: "\"" (
                 "\\" ~[]     //any escaped character
@@ -105,7 +107,10 @@ TOKEN: {
              )* "\"" >
 }
 
-
+void Rule() :
+{
+    Token priority = <PRIORITY>
+}
 void PriorityExpression(DefeasibleLogicProgram delp, FolSignature signature, Set<FolFormula> body) :
 {
     DefeasibleRule defeasibleRule;
