@@ -48,7 +48,7 @@ public class DeLPExample {
 
                 ArrayList<Long> times = new ArrayList<Long>(); // Reset times array for each query
 
-                for (int j = 0; j < 10; j++) {
+                for (int j = 1; j <= 1; j++) {
                     long startTime = System.currentTimeMillis();
                     queryResult = reasoner.query(delp, query).toString();
                     long endTime = System.currentTimeMillis();

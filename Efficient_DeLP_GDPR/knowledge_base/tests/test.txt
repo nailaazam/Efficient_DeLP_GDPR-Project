@@ -1,10 +1,27 @@
-buy_stock(C) -< good_price(C).
-~buy_stock(C) -< good_price(C), risky_company(C).
-risky_company(C) -< in_fusion(C,D).
-risky_company(C) -< closing(C).
-~risky_company(C) -< in_fusion(C,D), strong(D).
-Compliant(x) -< Can_delete_data(x).
+A(X, Y) -< DS(Y), DC(X), B1(X, Y).
+~A(X, Y) -< ~D1(X, Y).
 
 
-good_price(acme).
-in_fusion(acme, steel ).
+~A(X, Y) <- ~B2(X, Y).
+B2(X, Y)-< C1(Y, X).
+C1(Y, X) <- D1(X, Y).
+
+~A(X, Y) <- ~B3(Y, X) .
+
+~A(X, Y) <- B01(X, Y).
+~A(X, Y) <- B02(X, Y). 
+~A(X, Y) <- B03(X, Y).
+~A(X, Y) <- B04(X, Y).
+
+
+
+DS(user1).
+DS(user2).
+DS(user3).
+DC(fitbit).
+B1(fitbit,user1).
+~B2(fitbit, user1).
+B1(fitbit, user2).
+B3(fitbit, user2).
+B1(fitbit, user3).
+~D1(fitbit, user3).

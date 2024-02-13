@@ -22,23 +22,25 @@ options {
 }
 
 PARSER_BEGIN(DelpParser)
-package org.tweetyproject.arg.delp.parser;
+package DeLP_GDPR.delp.parser;
 
-import org.tweetyproject.arg.delp.syntax.DefeasibleLogicProgram;
-import org.tweetyproject.arg.delp.syntax.DefeasibleRule;
-import org.tweetyproject.arg.delp.syntax.DelpFact;
-import org.tweetyproject.arg.delp.syntax.StrictRule;
 import org.tweetyproject.commons.Formula;
 import org.tweetyproject.commons.Parser;
 import org.tweetyproject.commons.ParserException;
-import org.tweetyproject.logics.commons.syntax.Constant;
-import org.tweetyproject.logics.commons.syntax.Predicate;
-import org.tweetyproject.logics.commons.syntax.Variable;
-import org.tweetyproject.logics.commons.syntax.interfaces.Term;
-import org.tweetyproject.logics.fol.syntax.FolAtom;
-import org.tweetyproject.logics.fol.syntax.FolFormula;
-import org.tweetyproject.logics.fol.syntax.FolSignature;
-import org.tweetyproject.logics.fol.syntax.Negation;
+
+import DeLP_GDPR.delp.syntax.DefeasibleLogicProgram;
+import DeLP_GDPR.delp.syntax.DefeasibleRule;
+import DeLP_GDPR.delp.syntax.DelpFact;
+import DeLP_GDPR.delp.syntax.PriorityRule;
+import DeLP_GDPR.delp.syntax.StrictRule;
+import DeLP_GDPR.logics.commons.syntax.Constant;
+import DeLP_GDPR.logics.commons.syntax.Predicate;
+import DeLP_GDPR.logics.commons.syntax.Variable;
+import DeLP_GDPR.logics.commons.syntax.interfaces.Term;
+import DeLP_GDPR.logics.fol.syntax.FolAtom;
+import DeLP_GDPR.logics.fol.syntax.FolFormula;
+import DeLP_GDPR.logics.fol.syntax.FolSignature;
+import DeLP_GDPR.logics.fol.syntax.Negation;
 
 import java.io.Reader;
 import java.io.StringReader;
@@ -46,6 +48,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 
 /**
   * This class implements a parser for defeasible logic programs. The BNF for defeasible

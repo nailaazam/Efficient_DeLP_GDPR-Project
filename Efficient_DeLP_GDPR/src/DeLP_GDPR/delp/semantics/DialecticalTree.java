@@ -39,6 +39,16 @@ public class DialecticalTree {
     public DialecticalTree(DelpArgument argument) {
         this(null, argument, 0);
     }
+    
+ // Add this method to retrieve children of the current node
+    public Set<DialecticalTree> getChildren() {
+        return this.children;
+    }
+
+    // Add this method to retrieve the argument of the current node
+    public DelpArgument getArgument() {
+        return this.argument;
+    }
 
     // Constructor for building the linked tree structure
     private DialecticalTree(DialecticalTree parent, DelpArgument argument, int depth) {
@@ -50,7 +60,7 @@ public class DialecticalTree {
         // Set the depth properly
         this.depth = parent != null ? parent.getDepth() + 1 : 0;
         
-        System.out.println("Creating node: " + this + " with depth: " + this.depth);
+       // System.out.println("Creating node: " + this + " with depth: " + this.depth);
     }
 
     /**

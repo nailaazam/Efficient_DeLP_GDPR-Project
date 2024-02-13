@@ -24,6 +24,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.logging.FileHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.Logger;
+import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * This reasoner performs default dialectical reasoning on some given DeLP.
@@ -61,6 +70,7 @@ public class DelpReasoner implements Reasoner<DelpAnswer.Type, DefeasibleLogicPr
         stack.add(dtree);
         while (!stack.isEmpty()) {
             DialecticalTree dtree2 = stack.pop();
+          //  logger.log(Level.INFO, "Marking of node: {0}", currentTree.getMarking());
             stack.addAll(dtree2.getDefeaters(groundDelp, comparisonCriterion));
         }
         return dtree.getMarking().equals(DialecticalTree.Mark.UNDEFEATED);
@@ -102,53 +112,177 @@ public class DelpReasoner implements Reasoner<DelpAnswer.Type, DefeasibleLogicPr
     }
 
     @Override
-    public Type query(DefeasibleLogicProgram delp, FolFormula f) {
-        DialecticalTree dtree = null;
-        boolean warrant = false;
-        Set<DelpArgument> args = getArgumentsWithConclusion(delp.ground(), f);
+    public Type query(DefeasibleLogicProgram delp, FolFormula queryFormula) {
+        // Ground the program and prepare for evaluation
+        DefeasibleLogicProgram groundedDelp = delp.ground();
+        Set<DelpArgument> conflictingArguments = new HashSet<>();
 
-        for (DelpArgument arg : args) {
-            dtree = new DialecticalTree(arg);
-            Deque<DialecticalTree> stack = new ArrayDeque<>();
-            stack.add(dtree);
-            treeCount++;
-            while (!stack.isEmpty()) {
-                DialecticalTree dtree2 = stack.pop();
-                stack.addAll(dtree2.getDefeaters(delp.ground(), comparisonCriterion));
-            }
-            System.out.println("Dialectic tree depth: " + dtree.getDepth());
-            if (dtree.getMarking().equals(DialecticalTree.Mark.UNDEFEATED)) {
-                warrant = true;
-            }
-        }
+        // Original evaluation without considering priorities
+        boolean warrant = evaluateArguments(groundedDelp, getArgumentsWithConclusion(groundedDelp, queryFormula), conflictingArguments);
+        boolean compWarrant = evaluateArguments(groundedDelp, getArgumentsWithConclusion(groundedDelp, (FolFormula) queryFormula.complement()), conflictingArguments);
 
-        boolean comp_warrant = false;
-        if (!warrant) {
-            args = getArgumentsWithConclusion(delp.ground(), (FolFormula) f.complement());
-            for (DelpArgument arg : args) {
-                dtree = new DialecticalTree(arg);
-                Deque<DialecticalTree> stack = new ArrayDeque<>();
-                stack.add(dtree);
-                while (!stack.isEmpty()) {
-                    DialecticalTree dtree2 = stack.pop();
-                    stack.addAll(dtree2.getDefeaters(delp.ground(), comparisonCriterion));
-                }
-                System.out.println("Dialectic tree supporting the complement of the query, depth: " + dtree.getDepth() + ":\n " + dtree);
-                comp_warrant = dtree.getMarking().equals(DialecticalTree.Mark.UNDEFEATED);
-            }
-            System.out.println("Number of trees generated: " + treeCount);
-        }
+        if (!warrant && !compWarrant && !conflictingArguments.isEmpty()) {
+            printConflictingArguments(conflictingArguments);
+            HashMap<DelpArgument, Integer> priorities = askForPriorities(conflictingArguments);
 
-        if (warrant) {
-            System.out.println("Dialectic tree supporting query, depth: " + dtree.getDepth() + ":\n " + dtree);
+            Set<DelpArgument> highPriorityArguments = filterByHighestPriority(priorities);
+
+            // Assuming only one highest priority argument is considered
+            DelpArgument highestPriorityArgument = highPriorityArguments.iterator().next();
+
+            // Re-evaluate considering only the highest priority argument
+            reevaluateWithPriority(groundedDelp, highestPriorityArgument, queryFormula);
+           // boolean reevaluatedWarrant = reevaluateWithPriority(groundedDelp, highestPriorityArgument, queryFormula);
+          //  boolean reevaluatedCompWarrant = reevaluateWithPriority(groundedDelp, highestPriorityArgument, (FolFormula) queryFormula.complement());
+
+          //  if (reevaluatedWarrant && !reevaluatedCompWarrant) {
+            //    System.out.println("Based on the highest priority argument, the query is warranted: YES");
+            //    return Type.YES; // Correctly returning YES based on reevaluation
+           // } else if (!reevaluatedWarrant && reevaluatedCompWarrant) {
+           //     System.out.println("Based on the highest priority argument, the query is warranted: NO");
+           //     return Type.NO; // Correctly returning NO based on reevaluation
+            }
+            // If reevaluation still doesn't yield a conclusive result, proceed to original logic
+      //  }
+
+        // Original decision logic if not undecided or priorities do not affect the outcome
+        if (warrant && !compWarrant) {
             return Type.YES;
-        } else if (comp_warrant) {
+        } else if (!warrant && compWarrant) {
             return Type.NO;
         } else {
-            return Type.UNDECIDED;
+            //System.out.println("After considering all factors, the query remains UNDECIDED.");
+            return Type.UNDECIDED; // Ensuring this line is reached with clear reasoning
         }
     }
+  
+    private Set<DelpArgument> filterByHighestPriority(HashMap<DelpArgument, Integer> priorities) {
+        // Find the minimum priority value
+        int minPriority = Collections.min(priorities.values());
+        System.out.println("Minimum Priority Value: " + minPriority); // Log the minimum priority value
 
+        // Filter arguments to include only those with the highest priority
+        Set<DelpArgument> highPriorityArguments = priorities.entrySet().stream()
+                .filter(entry -> entry.getValue() == minPriority)
+                .peek(entry -> System.out.println("Filtering Argument: " + entry.getKey() + " with Priority: " + entry.getValue())) // Log each argument being considered
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toSet());
+
+        // Log the filtered arguments for verification
+        System.out.println("Filtered High Priority Arguments: ");
+        highPriorityArguments.forEach(arg -> System.out.println(arg));
+
+        return highPriorityArguments;
+    }
+    private Set<DelpArgument> filterRelevantArguments(Set<DelpArgument> arguments, FolFormula formula) {
+	    // Assuming FolFormula's toString or equivalent method gives a unique representation for equivalence comparison
+	    return arguments.stream()
+	            .filter(arg -> arg.getConclusion().toString().equals(formula.toString()) || arg.getConclusion().toString().equals(formula.complement().toString()))
+	            .collect(Collectors.toSet());
+	}
+    private boolean reevaluateWithPriority(DefeasibleLogicProgram delp, DelpArgument highestPriorityArgument, FolFormula formula) {
+        System.out.println("Reevaluating with the highest priority argument for formula: " + formula);
+        System.out.println("Evaluating highest priority argument: " + highestPriorityArgument);
+
+        // Direct support or opposition check
+        boolean directlySupports = highestPriorityArgument.getConclusion().equals(formula);
+        boolean directlyOpposes = highestPriorityArgument.getConclusion().equals(formula.complement());
+
+        // Evaluate for defeaters
+        DialecticalTree tree = new DialecticalTree(highestPriorityArgument);
+        boolean hasDefeaters = !evaluateTree(tree, delp, new HashSet<>());
+
+        if (directlySupports && !hasDefeaters) {
+            // If supports the formula and no defeaters, then the query is conclusively supported
+            System.out.println("Result: YES");
+            return true; // This indicates a YES outcome for the query
+        } else if (directlyOpposes || (directlySupports && hasDefeaters)) {
+            // If opposes the formula or supports but has defeaters, then the query is conclusively not supported
+            System.out.println("Result: NO");
+            return false; // This indicates a NO outcome for the query
+        }
+
+        // If not directly related or cannot conclusively determine the outcome, consider it not conclusive
+        System.out.println("The reevaluation with the highest priority argument remains inconclusive.");
+        return false; // This would typically indicate an UNDECIDED outcome, but based on your logic, it might warrant further review
+    }
+    private HashMap<DelpArgument, Integer> askForPriorities(Set<DelpArgument> conflictingArguments) {
+        HashMap<DelpArgument, Integer> priorities = new HashMap<>();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Assign priorities to the following arguments (lower number means higher priority):");
+
+        int counter = 1;
+        for (DelpArgument argument : conflictingArguments) {
+            System.out.println("Argument " + counter + ": " + argument);
+            System.out.print("Priority: ");
+            int priority = scanner.nextInt();
+            priorities.put(argument, priority);
+            counter++;
+        }
+
+        scanner.close(); // Be cautious about closing the scanner.
+        return priorities;
+    }
+
+    
+    private void printConflictingArguments(Set<DelpArgument> conflictingArguments) {
+        System.out.println("Conflicting Arguments:");
+        if (conflictingArguments.isEmpty()) {
+            System.out.println("No conflicting arguments were found.");
+        } else {
+            int argumentCounter = 1; // Initialize the counter for numbering arguments
+            for (DelpArgument arg : conflictingArguments) {
+                System.out.println("Argument " + argumentCounter + ": "); // Use the counter in the output
+                //System.out.println("Support (Set of Defeasible Rules):");
+                arg.getSupport().forEach(rule -> {
+                    System.out.println("\tRule: " + rule);
+                    // If DefeasibleRule class has a specific toString implementation, it will be used here.
+                });
+                System.out.println("Conclusion: " + arg.getConclusion());
+                
+                System.out.println("---");
+                argumentCounter++; // Increment the counter for the next argument
+            }
+        }
+    }
+    
+    private boolean evaluateArguments(DefeasibleLogicProgram delp, Set<DelpArgument> arguments, Set<DelpArgument> conflictingArguments) {
+        boolean foundSupport = false;
+        for (DelpArgument argument : arguments) {
+            DialecticalTree tree = new DialecticalTree(argument);
+            if (evaluateTree(tree, delp, conflictingArguments)) {
+                foundSupport = true; // Argument supports the query
+            }
+        }
+        return foundSupport;
+    }
+
+    private boolean evaluateTree(DialecticalTree tree, DefeasibleLogicProgram delp, Set<DelpArgument> conflictingArguments) {
+        // the delp is the grounded version
+        
+        DefeasibleLogicProgram groundedDelp = delp.ground();
+        Deque<DialecticalTree> stack = new ArrayDeque<>();
+        stack.push(tree);
+
+        //int nodeCounter = 0; // Initialize the counter
+
+        while (!stack.isEmpty()) {
+            DialecticalTree currentTree = stack.pop();
+           // nodeCounter++; // Increment the counter as we're about to process a new node
+            System.out.println("Processing node: " + currentTree.getArgument().toString()); // Use the counter in the output
+            Set<DialecticalTree> defeaters = currentTree.getDefeaters(groundedDelp, comparisonCriterion);
+            for (DialecticalTree defeater : defeaters) {
+                System.out.println("Defeater found: " + defeater.getArgument().toString());
+                if (defeater.getMarking() == DialecticalTree.Mark.UNDEFEATED) {
+                    conflictingArguments.add(defeater.getArgument());
+                  //  System.out.println("argument: " + defeater.getArgument().toString());
+                } else {
+                    stack.push(defeater);
+                }
+            }
+        }
+        return conflictingArguments.isEmpty();
+    }
     public boolean isInstalled() {
         return true;
     }
