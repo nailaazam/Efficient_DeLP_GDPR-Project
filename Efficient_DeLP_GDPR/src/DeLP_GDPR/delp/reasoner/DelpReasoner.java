@@ -112,7 +112,7 @@ public class DelpReasoner implements Reasoner<DelpAnswer.Type, DefeasibleLogicPr
     }
 
     @Override
-    public Type query(DefeasibleLogicProgram delp, FolFormula queryFormula) {
+    public DelpAnswer.Type query(DefeasibleLogicProgram delp, FolFormula queryFormula) {
         // Ground the program and prepare for evaluation
         DefeasibleLogicProgram groundedDelp = delp.ground();
         Set<DelpArgument> conflictingArguments = new HashSet<>();
@@ -126,36 +126,23 @@ public class DelpReasoner implements Reasoner<DelpAnswer.Type, DefeasibleLogicPr
             HashMap<DelpArgument, Integer> priorities = askForPriorities(conflictingArguments);
 
             Set<DelpArgument> highPriorityArguments = filterByHighestPriority(priorities);
-
             // Assuming only one highest priority argument is considered
             DelpArgument highestPriorityArgument = highPriorityArguments.iterator().next();
 
-            // Re-evaluate considering only the highest priority argument
-            reevaluateWithPriority(groundedDelp, highestPriorityArgument, queryFormula);
-           // boolean reevaluatedWarrant = reevaluateWithPriority(groundedDelp, highestPriorityArgument, queryFormula);
-          //  boolean reevaluatedCompWarrant = reevaluateWithPriority(groundedDelp, highestPriorityArgument, (FolFormula) queryFormula.complement());
-
-          //  if (reevaluatedWarrant && !reevaluatedCompWarrant) {
-            //    System.out.println("Based on the highest priority argument, the query is warranted: YES");
-            //    return Type.YES; // Correctly returning YES based on reevaluation
-           // } else if (!reevaluatedWarrant && reevaluatedCompWarrant) {
-           //     System.out.println("Based on the highest priority argument, the query is warranted: NO");
-           //     return Type.NO; // Correctly returning NO based on reevaluation
-            }
-            // If reevaluation still doesn't yield a conclusive result, proceed to original logic
-      //  }
+            // Correctly pass the highest priority argument and the priorities map to reevaluateWithPriority
+            reevaluateWithPriority(groundedDelp, highestPriorityArgument, queryFormula, priorities);
+            
+        }
 
         // Original decision logic if not undecided or priorities do not affect the outcome
         if (warrant && !compWarrant) {
-            return Type.YES;
+            return DelpAnswer.Type.YES;
         } else if (!warrant && compWarrant) {
-            return Type.NO;
+            return DelpAnswer.Type.NO;
         } else {
-            //System.out.println("After considering all factors, the query remains UNDECIDED.");
-            return Type.UNDECIDED; // Ensuring this line is reached with clear reasoning
+            return DelpAnswer.Type.UNDECIDED;
         }
-    }
-  
+        }
     private Set<DelpArgument> filterByHighestPriority(HashMap<DelpArgument, Integer> priorities) {
         // Find the minimum priority value
         int minPriority = Collections.min(priorities.values());
@@ -174,38 +161,25 @@ public class DelpReasoner implements Reasoner<DelpAnswer.Type, DefeasibleLogicPr
 
         return highPriorityArguments;
     }
-    private Set<DelpArgument> filterRelevantArguments(Set<DelpArgument> arguments, FolFormula formula) {
-	    // Assuming FolFormula's toString or equivalent method gives a unique representation for equivalence comparison
-	    return arguments.stream()
-	            .filter(arg -> arg.getConclusion().toString().equals(formula.toString()) || arg.getConclusion().toString().equals(formula.complement().toString()))
-	            .collect(Collectors.toSet());
-	}
-    private boolean reevaluateWithPriority(DefeasibleLogicProgram delp, DelpArgument highestPriorityArgument, FolFormula formula) {
+ 
+    private boolean reevaluateWithPriority(DefeasibleLogicProgram delp, DelpArgument highestPriorityArgument, FolFormula formula, HashMap<DelpArgument, Integer> priorities) {
         System.out.println("Reevaluating with the highest priority argument for formula: " + formula);
-        System.out.println("Evaluating highest priority argument: " + highestPriorityArgument);
 
-        // Direct support or opposition check
+        // Directly check if the argument supports or opposes the query
         boolean directlySupports = highestPriorityArgument.getConclusion().equals(formula);
         boolean directlyOpposes = highestPriorityArgument.getConclusion().equals(formula.complement());
 
-        // Evaluate for defeaters
-        DialecticalTree tree = new DialecticalTree(highestPriorityArgument);
-        boolean hasDefeaters = !evaluateTree(tree, delp, new HashSet<>());
-
-        if (directlySupports && !hasDefeaters) {
-            // If supports the formula and no defeaters, then the query is conclusively supported
+        // Log the direct relation of the argument
+        if (directlySupports) {
             System.out.println("Result: YES");
-            return true; // This indicates a YES outcome for the query
-        } else if (directlyOpposes || (directlySupports && hasDefeaters)) {
-            // If opposes the formula or supports but has defeaters, then the query is conclusively not supported
+        } else if (directlyOpposes) {
             System.out.println("Result: NO");
-            return false; // This indicates a NO outcome for the query
         }
 
-        // If not directly related or cannot conclusively determine the outcome, consider it not conclusive
-        System.out.println("The reevaluation with the highest priority argument remains inconclusive.");
-        return false; // This would typically indicate an UNDECIDED outcome, but based on your logic, it might warrant further review
+       // System.out.println("The reevaluation with the highest priority argument remains inconclusive.");
+        return false;
     }
+    
     private HashMap<DelpArgument, Integer> askForPriorities(Set<DelpArgument> conflictingArguments) {
         HashMap<DelpArgument, Integer> priorities = new HashMap<>();
         Scanner scanner = new Scanner(System.in);

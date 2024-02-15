@@ -1,3 +1,1 @@
-A(fitbit,user1)
-A(fitbit,user2)
-~A(fitbit,user3) 
+~A(fitbit,user1)
