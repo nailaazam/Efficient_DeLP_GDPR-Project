@@ -4,6 +4,7 @@ package DeLP_GDPR.delp.syntax;
 import java.io.BufferedReader;
 
 
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -44,6 +45,26 @@ import DeLP_GDPR.logics.fol.syntax.FolSignature;
 public class DefeasibleLogicProgram extends BeliefSet<DelpRule,FolSignature>{
 	
 	private Set<DelpArgument> arguments;
+	
+    private Set<FolFormula> groundedFacts;
+	
+	
+   
+  
+    
+    public void addFact(DelpFact fact) {
+        if (fact != null) {
+            groundedFacts.add(fact.getConclusion()); // Assuming getConclusion() returns a FolFormula
+            System.out.println("Fact added: " + fact.getConclusion());
+        } else {
+            System.out.println("Cannot add null fact.");
+        }
+    }
+    /**
+     * Add a fact directly to the grounded knowledge base.
+     * @param fact The fact to be added.
+     */
+ 
 
 	/**
 	 * Default constructor; initializes empty delpFacts, strict and defeasible rules

@@ -15,9 +15,12 @@ import DeLP_GDPR.delp.syntax.DefeasibleLogicProgram;
 import DeLP_GDPR.delp.syntax.DefeasibleRule;
 import DeLP_GDPR.delp.syntax.DelpArgument;
 import DeLP_GDPR.delp.syntax.DelpRule;
+import DeLP_GDPR.logics.commons.syntax.Constant;
+import DeLP_GDPR.logics.commons.syntax.interfaces.Term;
 import DeLP_GDPR.logics.fol.syntax.FolFormula;
 
 import java.util.ArrayDeque;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.HashMap;
@@ -131,10 +134,45 @@ public class DelpReasoner implements Reasoner<DelpAnswer.Type, DefeasibleLogicPr
 
             // Correctly pass the highest priority argument and the priorities map to reevaluateWithPriority
             reevaluateWithPriority(groundedDelp, highestPriorityArgument, queryFormula, priorities);
-            
         }
 
-        // Original decision logic if not undecided or priorities do not affect the outcome
+        if (!warrant && !compWarrant && conflictingArguments.isEmpty()) {
+            Set<String> missingFacts = identifyMissingFacts(groundedDelp, queryFormula);
+            if (!missingFacts.isEmpty()) {
+                System.out.println("Missing facts identified:");
+                AtomicInteger counter = new AtomicInteger(1);
+                missingFacts.forEach(fact -> System.out.println(counter.getAndIncrement() + ". " + fact));
+                
+                System.out.println("Enter the number of the fact you wish to add or type 'done' to finish:");
+                Scanner scanner = new Scanner(System.in);
+                String userInput;
+                while (!(userInput = scanner.nextLine().trim()).equalsIgnoreCase("done")) {
+                    try {
+                        int factIndex = Integer.parseInt(userInput) - 1;
+                        if (factIndex >= 0 && factIndex < missingFacts.size()) {
+                            String selectedFact = new ArrayList<>(missingFacts).get(factIndex);
+                            // logic to add fact here
+                            System.out.println("Fact added: " + selectedFact);
+                        } else {
+                            System.out.println("Invalid fact number. Please try again.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. Please enter a number or type 'done'.");
+                    }
+                    System.out.println("Enter another fact number or type 'done' to finish:");
+                }
+                
+              
+             // Re-evaluate groundedDelp with added facts...
+                reevaluateLogic(groundedDelp, queryFormula);
+                
+                
+            } else {
+                System.out.println("No missing facts identified.");
+            }
+        }
+
+        // Decision logic
         if (warrant && !compWarrant) {
             return DelpAnswer.Type.YES;
         } else if (!warrant && compWarrant) {
@@ -142,7 +180,31 @@ public class DelpReasoner implements Reasoner<DelpAnswer.Type, DefeasibleLogicPr
         } else {
             return DelpAnswer.Type.UNDECIDED;
         }
+    }
+    
+ // Re-evaluate logic based on updated knowledge base
+    private void reevaluateLogic(DefeasibleLogicProgram groundedDelp, FolFormula queryFormula) {
+        System.out.println("Before adding missing facts, size of groundedDelp: " + groundedDelp.size());
+
+        // Ground the updated program and prepare for re-evaluation
+        groundedDelp = groundedDelp.ground();
+
+        // Re-evaluate the query
+        boolean warrant = evaluateArguments(groundedDelp, getArgumentsWithConclusion(groundedDelp, queryFormula), new HashSet<>());
+        boolean compWarrant = evaluateArguments(groundedDelp, getArgumentsWithConclusion(groundedDelp, (FolFormula) queryFormula.complement()), new HashSet<>());
+
+        // Handle the results of re-evaluation
+        if (warrant && !compWarrant) {
+            System.out.println("Query result: YES");
+        } else if (!warrant && compWarrant) {
+            System.out.println("Query result: NO");
+        } else {
+            System.out.println("Query result: UNDECIDED");
         }
+
+        System.out.println("After adding missing facts, size of groundedDelp: " + groundedDelp.size());
+    }
+    
     private Set<DelpArgument> filterByHighestPriority(HashMap<DelpArgument, Integer> priorities) {
         // Find the minimum priority value
         int minPriority = Collections.min(priorities.values());
@@ -256,7 +318,110 @@ public class DelpReasoner implements Reasoner<DelpAnswer.Type, DefeasibleLogicPr
             }
         }
         return conflictingArguments.isEmpty();
+        
     }
+    
+    
+    private Set<String> identifyMissingFacts(DefeasibleLogicProgram delp, FolFormula queryFormula) {
+        Set<FolFormula> allFacts = new HashSet<>();
+        Set<String> missingFacts = new LinkedHashSet<>(); // Preserve insertion order and avoid duplicates
+        populateAllFacts(delp, allFacts);
+
+        // Logic to identify missing facts...
+        Set<FolFormula> bodyLiterals = extractBodyLiterals(delp, queryFormula);
+        bodyLiterals.forEach(literal -> {
+            if (!containsFactOrComplement(allFacts, literal)) {
+                missingFacts.add(literal.toString());
+            }
+        });
+
+        // Instead of printing, just return the set of missing facts.
+        return missingFacts;
+    }
+
+    private Set<String> filterOutFactsWithUniqueLiterals(Set<String> missingFacts, Set<FolFormula> allFacts) {
+        // Convert allFacts to a more searchable structure
+        Map<List<String>, Set<String>> allFactsMap = new HashMap<>();
+        allFacts.forEach(fact -> {
+            String[] parts = fact.toString().split("\\(", 2);
+            String predicate = parts[0];
+            String arguments = parts.length > 1 ? parts[1] : "";
+            List<String> argsList = Arrays.asList(arguments.split(","));
+            allFactsMap.computeIfAbsent(argsList, k -> new HashSet<>()).add(predicate);
+        });
+
+        // Filter missing facts based on unique predicate with same arguments
+        return missingFacts.stream().filter(missingFact -> {
+            String[] parts = missingFact.split("\\(", 2);
+            String missingPredicate = parts[0].replaceAll("!", ""); // Remove negation for comparison
+            String arguments = parts.length > 1 ? parts[1] : "";
+            List<String> argsList = Arrays.asList(arguments.split(","));
+
+            Set<String> predicatesWithSameArgs = allFactsMap.getOrDefault(argsList, Collections.emptySet());
+            return !predicatesWithSameArgs.contains(missingPredicate) && !predicatesWithSameArgs.isEmpty();
+        }).collect(Collectors.toSet());
+    }
+
+    private boolean containsFactOrComplement(Set<FolFormula> allFacts, FolFormula fact) {
+        // Check if the set contains the fact or its complement
+        String factStr = fact.toString();
+        String complementStr = getComplementLiteral(factStr);
+        return allFacts.stream().anyMatch(f -> 
+            f.toString().equals(factStr) || f.toString().equals(complementStr));
+    }
+
+    private String getComplementLiteral(String literalStr) {
+        // Adjust this method based on how your logical negation is represented
+        if (literalStr.startsWith("!")) {
+            return literalStr.substring(1);
+        } else {
+            return "!" + literalStr;
+        }
+    }
+
+
+
+
+    private Set<FolFormula> extractBodyLiterals(DefeasibleLogicProgram delp) {
+        Set<FolFormula> bodyLiterals = new HashSet<>();
+        delp.forEach(rule -> bodyLiterals.addAll(rule.getPremise()));
+        return bodyLiterals;
+    }
+    private boolean isRelevant(FolFormula conclusion, FolFormula queryFormula) {
+        // Direct equality check
+        boolean isEqual = conclusion.toString().equals(queryFormula.toString());
+        
+        // Check for complement
+        String conclusionStr = conclusion.toString();
+        String queryStr = queryFormula.toString();
+        boolean isComplement = (conclusionStr.startsWith("!") && conclusionStr.substring(1).equals(queryStr)) ||
+                               (queryStr.startsWith("!") && queryStr.substring(1).equals(conclusionStr));
+        
+        return isEqual || isComplement;
+    }
+    private Set<FolFormula> extractBodyLiterals(DefeasibleLogicProgram delp, FolFormula queryFormula) {
+        Set<FolFormula> bodyLiterals = new HashSet<>();
+        delp.forEach(rule -> {
+            if (rule.getConclusion().toString().equals(queryFormula.toString()) || isRelevant(rule.getConclusion(), queryFormula)) {
+                bodyLiterals.addAll(rule.getPremise());
+            }
+        });
+        return bodyLiterals;
+    }
+    
+    
+    
+    private void populateAllFacts(DefeasibleLogicProgram delp, Set<FolFormula> allFacts) {
+        // Directly iterate over the elements of the DefeasibleLogicProgram
+        delp.forEach(rule -> {
+            // Check if the rule qualifies as a fact based on its body being empty
+            if (rule.isFact()) {
+                allFacts.add(rule.getConclusion());
+            }
+        });
+    }
+  
+
     public boolean isInstalled() {
         return true;
     }

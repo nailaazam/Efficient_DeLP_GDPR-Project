@@ -4,6 +4,7 @@ package DeLP_GDPR.logics.fol.syntax;
 
 import java.util.Collection;
 
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -58,6 +59,8 @@ public abstract class FolFormula extends RelationalFormula {
 	public Set<Variable> getQuantifierVariables() {
 		return new HashSet<Variable>();
 	}
+	
+	
 	
 	/**
 	 * Makes a disjunctive normal form of this formula.

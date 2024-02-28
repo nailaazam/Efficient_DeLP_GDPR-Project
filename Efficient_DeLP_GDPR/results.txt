@@ -1,5 +1,40 @@
 --------Knowledge Base test-case: test.txt
-Query to Knowledge base: ~A(fitbit,user1)
-UNDECIDED 5602
+Query to Knowledge base: A(fitbit, user1)
+UNDECIDED 13192
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: A(fitbit, user1)
+YES 41
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: A(fitbit, user1)
+UNDECIDED 11199
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: A(fitbit, user1)
+UNDECIDED 9251
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: A(fitbit, user1)
+UNDECIDED 12147
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: A(fitbit, user1)
+UNDECIDED 19495
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: A(fitbit, user1)
+UNDECIDED 13608
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: A(fitbit, user1)
+UNDECIDED 7147
 
 ---End of test-cases---

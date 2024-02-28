@@ -1,13 +1,47 @@
-A(X, Y) -< X(X, Y), Y(X, Y).
-~A(X, Y) -< ~X(X, Y).
-~A(X, Y) -< ~W(X, Y).
+A(B,C) -< X(B,C),Y(B,C). 
+~A(B,C) -< ~X(B,C),~Z(B,C), T(B,C).
+A(B,C) -< Y(B,C),Z(B,C).
+P(B,C) -< W(B,C), S(B,C).
 
-~A(X, Y) -< ~Y(X, Y).
-A(X, Y) -< Y(X, Y), Z(X, Y).
+X(fitbit,user1).
+Z(fitbit,user1).
 
-DS(user1).
-DC(fitbit).
-~X(fitbit,user1).
-Y(fitbit, user1).
-Z(fitbit, user1).
-~W(fitbit, user1).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
