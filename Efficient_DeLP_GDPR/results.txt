@@ -38,3 +38,38 @@ Query to Knowledge base: A(fitbit, user1)
 UNDECIDED 7147
 
 ---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: A(fitbit, user1)
+UNDECIDED 8823
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: A(fitbit, user1)
+YES 20847
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: A(fitbit, user1)
+UNDECIDED 10044
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: A(fitbit, user1)
+UNDECIDED 16173
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: A(fitbit, user1)
+YES 34898
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ~A(fitbit, user1)
+NO 22282
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ~A(fitbit, user1)
+UNDECIDED 7156
+
+---End of test-cases---
