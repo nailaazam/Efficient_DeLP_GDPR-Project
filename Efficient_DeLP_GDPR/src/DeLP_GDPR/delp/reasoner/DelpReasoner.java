@@ -154,21 +154,25 @@ public class DelpReasoner implements Reasoner<DelpAnswer.Type, DefeasibleLogicPr
 							factList.add(selectedFact);
 							// logic to add fact here
 							System.out.println("Fact added: " + selectedFact);
+							
 						} else {
 							System.out.println("Invalid fact number. Please try again.");
 						}
 					} catch (NumberFormatException e) {
 						System.out.println("Invalid input. Please enter a number or type 'done'.");
+						
 					}
 					System.out.println("Enter another fact number or type 'done' to finish:");
 				}
 				String delpString = delp.toString();
-				delpString = delpString.replace("!", "~");
+				
 				for (String fact : factList) {
 					delpString += fact + ".\n";
 				}
 				try {
+					delpString = delpString.replace("!", "~");
 					delp = parser.parseBeliefBase(delpString);
+	
 				} catch (ParserException e1) {
 					e1.printStackTrace();
 				} catch (IOException e1) {
