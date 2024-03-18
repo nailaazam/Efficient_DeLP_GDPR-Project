@@ -3,6 +3,8 @@ A(B,C) -< X(B,C),Y(B,C).
 A(B,C) -< Y(B,C),Z(B,C), T(B,C).
 
 ~X(fitbit,user).
+Y(fitbit,user).
+
 
 
 
