@@ -120,7 +120,8 @@ public class DelpReasoner implements Reasoner<DelpAnswer.Type, DefeasibleLogicPr
 		// Ground the program and prepare for evaluation
 		DefeasibleLogicProgram groundedDelp = delp.ground();
 		Set<DelpArgument> conflictingArguments = new HashSet<>();
-
+		String delpString = delp.toString();
+		DelpAnswer.Type last = DelpAnswer.Type.UNDECIDED;
 		// Original evaluation without considering priorities
 		boolean warrant = evaluateArguments(groundedDelp, getArgumentsWithConclusion(groundedDelp, queryFormula),
 				conflictingArguments);
@@ -151,34 +152,28 @@ public class DelpReasoner implements Reasoner<DelpAnswer.Type, DefeasibleLogicPr
 						int factIndex = Integer.parseInt(userInput) - 1;
 						if (factIndex >= 0 && factIndex < missingFacts.size()) {
 							String selectedFact = new ArrayList<>(missingFacts).get(factIndex);
-							factList.add(selectedFact);
+							//factList.add(selectedFact);
 							// logic to add fact here
+							delpString += selectedFact + ".\n";
 							System.out.println("Fact added: " + selectedFact);
-							
+							try {
+								delpString = delpString.replace("!", "~");
+								delp = parser.parseBeliefBase(delpString);
+								last = reevaluateLogic(delp, queryFormula);
+							} catch (ParserException e1) {
+								e1.printStackTrace();
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
 						} else {
 							System.out.println("Invalid fact number. Please try again.");
 						}
 					} catch (NumberFormatException e) {
 						System.out.println("Invalid input. Please enter a number or type 'done'.");
-						
 					}
 					System.out.println("Enter another fact number or type 'done' to finish:");
 				}
-				String delpString = delp.toString();
-				
-				for (String fact : factList) {
-					delpString += fact + ".\n";
-				}
-				try {
-					delpString = delpString.replace("!", "~");
-					delp = parser.parseBeliefBase(delpString);
-	
-				} catch (ParserException e1) {
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				return reevaluateLogic(delp, queryFormula);
+				return last;
 			} else {
 				System.out.println("No missing facts identified.");
 			}

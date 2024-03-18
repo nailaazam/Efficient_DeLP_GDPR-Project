@@ -93,3 +93,8 @@ Query to Knowledge base: A(fitbit, user)
 NO 12596
 
 ---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: A(fitbit, user)
+NO 34376
+
+---End of test-cases---
