@@ -19,11 +19,11 @@ The source code is organized into several parts, as described below:
   - Location: `Efficient_DeLP_GDPR-Project/Efficient_DeLP_GDPR/src/DeLP_GDPR/delp/`
 
 - **Demonstration for the Fitbit Use Case:**
-  - Location: `Efficient_DeLP_GDPR-Project/Efficient_DeLP_GDPR/knowledge_base/`
+  - Location: https://github.com/nailaazam/Efficient_DeLP_GDPR-Project/tree/master/Efficient_DeLP_GDPR/src/DeLP_GDPR/delp/examples
 
 - **Reasoning Mechanism:**
  - The implementation of "UNDECIDED Results Handelers" and the evaluation of the Reasoner's "Complexity" can be found here:
-  - Location: `./reasoner`
+  - Location: https://github.com/nailaazam/Efficient_DeLP_GDPR-Project/tree/master/Efficient_DeLP_GDPR/src/DeLP_GDPR/delp/reasoner
 
 - **Supporting Classes for DeLP:**
   - Parser: `./parse`
