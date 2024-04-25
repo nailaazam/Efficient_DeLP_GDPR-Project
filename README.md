@@ -31,7 +31,7 @@ The source code is organized into several parts, as described below:
   - Syntax: `./syntax`
 
 - **Additional Components:**
-  - These are inherited from TweetyProject and found under `DeLP_GDPR/src/DeLP_GDPR/`, including modules for:
+  - These are inherited from TweetyProject and found under `Efficient_DeLP_GDPR/src/Efficient_DeLP_GDPR/`, including modules for:
     - DUNG
     - Graphs
     - Logics
