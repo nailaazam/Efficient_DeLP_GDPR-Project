@@ -1,1 +1,1 @@
-A(fitbit, user)
+ConsentCompliance(grindr,user)

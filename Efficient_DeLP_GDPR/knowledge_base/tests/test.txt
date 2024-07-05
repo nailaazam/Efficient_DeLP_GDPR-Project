@@ -1,8 +1,14 @@
-A(B,C) -< X(B,C),Y(B,C). 
-~A(B,C) -< ~X(B,C),~Z(B,C).
-A(B,C) -< Y(B,C),Z(B,C), T(B,C).
+ConsentCompliance(X,Y) -< DC(X), DS(Y), InformedConsent(X,Y),
+ExplicitConsent(X,Y).
+~ConsentCompliance(X,Y) -< ~InformedConsent(X,Y),
+~SpecificPurposeConsent(X,Y).
+ConsentCompliance(X,Y) -< ExplicitConsent(X,Y), SpecificPurposeConsent(X,Y).
 
-X(fitbit,user).
+DS(user).
+DC(grindr).
+InformedConsent(grindr,user).
+SpecificPurposeConsent(grindr,user).
+
 
 
 

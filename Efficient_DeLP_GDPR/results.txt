@@ -1,100 +1,25 @@
 --------Knowledge Base test-case: test.txt
-Query to Knowledge base: PurposeLimitation(fitbit,user)
-UNDECIDED 39
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 57
 
 ---End of test-cases---
 --------Knowledge Base test-case: test.txt
-Query to Knowledge base: PurposeLimitation(fitbit,user)
-UNDECIDED 39
+Query to Knowledge base: ConsentCompliance(grindr,user)
+UNDECIDED 57961
 
 ---End of test-cases---
 --------Knowledge Base test-case: test.txt
-Query to Knowledge base: PurposeLimitation(fitbit,user)
-YES 26265
+Query to Knowledge base: ConsentCompliance(grindr,user)
+UNDECIDED 4622
 
 ---End of test-cases---
 --------Knowledge Base test-case: test.txt
-Query to Knowledge base: PurposeLimitation(fitbit,user)
-YES 41
+Query to Knowledge base: ConsentCompliance(grindr,user)
+UNDECIDED 3118
 
 ---End of test-cases---
 --------Knowledge Base test-case: test.txt
-Query to Knowledge base: DataMinimization(fitbit,user)
-NO 49
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: DataMinimization(fitbit,user)
-NO 61
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: DataMinimization(fitbit,user)
-NO 51
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: DataMinimization(fitbit,user)
-NO 54
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: DataMinimization(fitbit,user)
-YES 51
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: DataMinimization(fitbit,user)
-YES 83
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: DataMinimization(fitbit,user)
-YES 54
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: DataMinimization(fitbit,user)
-NO 51
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: A(fitbit,user)
-YES 12259
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: A(fitbit,user)
-UNDECIDED 20598
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: A(fitbit,user)
-UNDECIDED 79015
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: A(fitbit,user)
-NO 12571
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: A(fitbit,user)
-UNDECIDED 27369
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: A(fitbit,user)
-NO 10736
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: A(fitbit, user)
-NO 12596
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: A(fitbit, user)
-NO 34376
+Query to Knowledge base: ConsentCompliance(grindr,user)
+YES 48
 
 ---End of test-cases---
