@@ -1,25 +1,130 @@
 --------Knowledge Base test-case: test.txt
 Query to Knowledge base: ConsentCompliance(grindr,user)
-NO 57
+NO 6915
 
 ---End of test-cases---
 --------Knowledge Base test-case: test.txt
 Query to Knowledge base: ConsentCompliance(grindr,user)
-UNDECIDED 57961
+NO 6042
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ~ConsentCompliance(grindr,user)
+YES 5961
 
 ---End of test-cases---
 --------Knowledge Base test-case: test.txt
 Query to Knowledge base: ConsentCompliance(grindr,user)
-UNDECIDED 4622
+NO 5942
 
 ---End of test-cases---
 --------Knowledge Base test-case: test.txt
 Query to Knowledge base: ConsentCompliance(grindr,user)
-UNDECIDED 3118
+NO 6409
 
 ---End of test-cases---
 --------Knowledge Base test-case: test.txt
 Query to Knowledge base: ConsentCompliance(grindr,user)
-YES 48
+NO 6593
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+UNDECIDED 58
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 6078
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 7170
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 5887
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 6160
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+YES 8758
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+YES 9243
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+YES 9879
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 7018
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 7154
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+YES 10960
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+YES 11417
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+YES 98
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 146
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 198
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 404
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 404
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 509
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 466
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+YES 566
 
 ---End of test-cases---
