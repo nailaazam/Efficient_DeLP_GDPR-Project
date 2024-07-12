@@ -88,10 +88,10 @@ ConsentCompliance(X,Y) -< ConsentStatusExplicitlyGiven(Y, X), DataSharingConsent
 
 DataSubject(user).
 DataController(grindr).
-%ConsentGiven(user, grindr).              %for query result YES
-%~FreelyGivenConsentObligation(user, grindr). %for query result NO
-InformedConsentObligation(grindr, user).   % missing info
-DataSharingConsent(grindr, user).          % missing Info
+%ConsentGiven(user, grindr).                          %for query result YES
+%~FreelyGivenConsentObligation(user, grindr).         %for query result NO
+InformedConsentObligation(grindr, user).              %missingInfo
+DataSharingConsent(grindr, user).                     %missingInfo
 
 
 
