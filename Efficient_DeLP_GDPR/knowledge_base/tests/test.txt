@@ -26,7 +26,6 @@ GivenByDelegation(Y, X) <- ConsentStatusGivenByDelegation(Y, X).
 %Purpose
  ~ConsentCompliance(X, Y) -<  ~PurposeForConsent(X, Y).
 ~PurposeForConsent(X, Y) <- ~SpecifySpecificInstanceOfPurpose(X, Y).
-SpecificPurposeConsent(X, Y)  <- SpecificCategoriesOfPersonalData(X, Y).
 
 ~ConsentCompliance(X, Y) -< ~ValidConsent(X, Y).
 ~ValidConsent(X, Y) <- ~FreelyGiven(Y, X).
@@ -55,22 +54,23 @@ PersonalDataForConsent(Y, X) <-  PersonalData(Y).
 
 % ConsentForProcessingPersonalData
 ~ConsentCompliance(X, Y) -< ~ConsentForProcessingPersonalData(X, Y).
-ConsentForProcessingPersonalData(X, Y) <- ConsentForDataAdaptation(X, Y).
-ConsentForProcessingPersonalData(X, Y) <- ConsentForDataAlignment(X, Y).
-ConsentForProcessingPersonalData(X, Y) <- ConsentForDataAlteration(X, Y).
-ConsentForProcessingPersonalData(X, Y) <- ConsentForDataCollection(X, Y).
-ConsentForProcessingPersonalData(X, Y) <- ConsentForDataCombination(X, Y).
-ConsentForProcessingPersonalData(X, Y) <- ConsentForDataConsultation(X, Y).
-ConsentForProcessingPersonalData(X, Y) <- ConsentForDataDestruction(X, Y).
-ConsentForProcessingPersonalData(X, Y) <- ConsentForDataDisclosurebyTransmission(X, Y).
-ConsentForProcessingPersonalData(X, Y) <- ConsentForDataErasure(X, Y).
-ConsentForProcessingPersonalData(X, Y) <- ConsentForDataRecording(X, Y).
-ConsentForProcessingPersonalData(X, Y) <- ConsentForDataRestriction(X, Y).
-ConsentForProcessingPersonalData(X, Y) <- ConsentForDataRetrieval(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataAdaptation(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataAlignment(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataAlteration(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataCollection(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataCombination(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataConsultation(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataDestruction(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataDisclosurebyTransmission(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataErasure(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataRecording(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataRestriction(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataRetrieval(X, Y).
 ~ConsentForProcessingPersonalData(X, Y) <- ~DataSharingConsent(X, Y).
-ConsentForProcessingPersonalData(X, Y) <- ConsentForDataStorage(X, Y).
-ConsentForProcessingPersonalData(X, Y) <- ConsentForDataStructuring(X, Y).
-ConsentForProcessingPersonalData(X, Y) <- ConsentForDataUse(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataStorage(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataStructuring(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataUse(X, Y).
+
 
 % ConsentContext
 ~ConsentCompliance(X, Y) -< ~ContextForConsent(X, Y).
@@ -78,9 +78,7 @@ ConsentForProcessingPersonalData(X, Y) <- ConsentForDataUse(X, Y).
 ~ContextForConsent(X, Y) <- ~SpecifyConsentMedium(X, Y).
 ~ContextForConsent(X, Y) <- ~SpecifyConsentTime(X, Y).
 ~ContextForConsent(X, Y) <- ~SpecifyConsentExpiry(X, Y).
-~ContextForConsent(X, Y) <- ~SpecifyActivityConsentInstance(X, Y).
-~ContextForConsent(X, Y) <- ThirdParties (Z), ~SpecifyRoleOfThirdPartiesForProcessingConsent(X, Z).
-
+%rules
 ConsentCompliance(X,Y) -< InformedConsentObligation(X, Y), ConsentForDataUse(X, Y).
 ~ConsentCompliance(X,Y) -< ~InformedConsentObligation(X, Y), ~DataSharingConsent(X, Y).
 ConsentCompliance(X,Y) -< ConsentStatusExplicitlyGiven(Y, X), DataSharingConsent(X,Y).
@@ -88,10 +86,10 @@ ConsentCompliance(X,Y) -< ConsentStatusExplicitlyGiven(Y, X), DataSharingConsent
 %Facts
 DataSubject(user).
 DataController(grindr).
-%ConsentGiven(user, grindr).                          %ForQueryResult YES
-%~FreelyGivenConsentObligation(user, grindr).         %ForQueryResult NO
-InformedConsentObligation(grindr, user).              %missingInfo
-DataSharingConsent(grindr, user).                     %missingInfo
+ConsentGiven(user, grindr).                          %ForQueryResult YES
+~FreelyGivenConsentObligation(user, grindr).         %ForQueryResult NO
+%InformedConsentObligation(grindr, user).              %missingInfo
+%DataSharingConsent(grindr, user).                     %missingInfo
 
 
 
