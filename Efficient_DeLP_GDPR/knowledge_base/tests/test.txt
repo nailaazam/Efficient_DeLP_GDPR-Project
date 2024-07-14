@@ -12,8 +12,8 @@ GivenByDelegation(Y, X) <- ConsentStatusGivenByDelegation(Y, X).
 
 %Status
 ~ConsentCompliance(X, Y) -< ~StatusForConsent(X, Y).
-~StatusForConsent(X, Y) <- ~StatusValidForProcessing(X, Y).
-~StatusForConsent(X, Y) <- StatusInvalidForProcessing(X, Y).
+StatusForConsent(X, Y) <- StatusValidForProcessing(X, Y).
+StatusForConsent(X, Y) <- StatusInvalidForProcessing(X, Y).
 
 ~StatusInvalidForProcessing(X, Y) <- ~ConsentStatusExpired(X, Y).
 ~StatusInvalidForProcessing(X, Y) <- ~ConsentStatusInvalidated(X, Y).
@@ -24,7 +24,7 @@ GivenByDelegation(Y, X) <- ConsentStatusGivenByDelegation(Y, X).
 ~StatusInvalidForProcessing(X, Y) <- ~ConsentStatusWithdrawn(X, Y).
 
 %Purpose
- ~ConsentCompliance(X, Y) -<  ~PurposeForConsent(X, Y).
+~ConsentCompliance(X, Y) -<  ~PurposeForConsent(X, Y).
 ~PurposeForConsent(X, Y) <- ~SpecifySpecificInstanceOfPurpose(X, Y).
 
 ~ConsentCompliance(X, Y) -< ~ValidConsent(X, Y).
@@ -33,17 +33,17 @@ GivenByDelegation(Y, X) <- ConsentStatusGivenByDelegation(Y, X).
 ~ValidConsent(X, Y) <- ~Informed(X, Y).
 ~Informed(X, Y) <- ~InformedConsentObligation(X, Y).
 ~ValidConsent(X, Y) <- ~Specific(Y, X).
-~ValidConsent(X, Y) <- ~VoluntaryAndOptIn(X, Y).
-VoluntaryAndOptIn(X, Y) <- VoluntaryOptInConsentObligation(X, Y).
+~ValidConsent(X, Y) <- ~VoluntaryAndoptIn(X, Y).
+~VoluntaryAndoptIn(X, Y) <- ~VoluntaryOptInConsentObligation(X, Y).
 
 
 ~ConsentCompliance(X, Y) -< ~ConsentActivity(X, Y), ~ObligationForObtainingConsent(X, Y).
-~ConsentActivity(X, Y) <- ~ObtainingConsentFromDataSubject(X, Y).
+ConsentActivity(X, Y) <- ObtainingConsentFromDataSubject(X, Y).
 ConsentActivity(X, Y) <- WithdrawingGivenConsent(Y, X). 
 
 %PersonalData
 ~ConsentCompliance(X, Y) -< ~PersonalDataForConsent(Y, X).
-PersonalDataForConsent(Y, X) <-  PersonalData(Y). 
+PersonalDataForConsent(Y, X) <- PersonalData(Y). 
 
 ~ObligationForObtainingConsent(X, Y) <- ~CanBeWithdrawnEasilyConsentObligation(Y, X).
 ~ObligationForObtainingConsent(X, Y) <- ~ClearExplanationOfProcessingConsentObligation(X, Y).
