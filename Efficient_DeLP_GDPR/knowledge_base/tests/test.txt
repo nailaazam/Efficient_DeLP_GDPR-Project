@@ -13,7 +13,7 @@ GivenByDelegation(Y, X) <- ConsentStatusGivenByDelegation(Y, X).
 %Status
 ~ConsentCompliance(X, Y) -< ~StatusForConsent(X, Y).
 StatusForConsent(X, Y) <- StatusValidForProcessing(X, Y).
-StatusForConsent(X, Y) <- StatusInvalidForProcessing(X, Y).
+~StatusForConsent(X, Y) <- StatusInvalidForProcessing(X, Y).
 
 ~StatusInvalidForProcessing(X, Y) <- ~ConsentStatusExpired(X, Y).
 ~StatusInvalidForProcessing(X, Y) <- ~ConsentStatusInvalidated(X, Y).
@@ -26,13 +26,15 @@ StatusForConsent(X, Y) <- StatusInvalidForProcessing(X, Y).
 %Purpose
 ~ConsentCompliance(X, Y) -<  ~PurposeForConsent(X, Y).
 ~PurposeForConsent(X, Y) <- ~SpecifySpecificInstanceOfPurpose(X, Y).
+~PurposeForConsent(X, Y) <- ThirdParty(Z), ~SpecifyPurposeAssociatedWithThirdParties(X, Z).
 
 ~ConsentCompliance(X, Y) -< ~ValidConsent(X, Y).
 ~ValidConsent(X, Y) <- ~FreelyGiven(Y, X).
-~FreelyGiven(Y, X) <- ~FreelyGivenConsentObligation(Y, X). 
+~FreelyGiven(Y, X) <- ~FreelyGivenConsentObligation(X, Y). 
 ~ValidConsent(X, Y) <- ~Informed(X, Y).
 ~Informed(X, Y) <- ~InformedConsentObligation(X, Y).
-~ValidConsent(X, Y) <- ~Specific(Y, X).
+~ValidConsent(X, Y) <- ~Specific(X, Y).
+~Specific(X, Y) <- SpecificConsentObligation(X, Y).
 ~ValidConsent(X, Y) <- ~VoluntaryAndoptIn(X, Y).
 ~VoluntaryAndoptIn(X, Y) <- ~VoluntaryOptInConsentObligation(X, Y).
 
@@ -69,7 +71,7 @@ PersonalDataForConsent(Y, X) <- PersonalData(Y).
 ~ConsentForProcessingPersonalData(X, Y) <- ~DataSharingConsent(X, Y).
 ~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataStorage(X, Y).
 ~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataStructuring(X, Y).
-~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataUse(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ThirdParty(Z), ~SpecifyRoleOfThirdPartiesForProcessingData(X, Z).
 
 
 % ConsentContext
@@ -86,10 +88,12 @@ ConsentCompliance(X,Y) -< ConsentStatusExplicitlyGiven(Y, X), DataSharingConsent
 %Facts
 DataSubject(user).
 DataController(grindr).
-ConsentGiven(user, grindr).                          %ForQueryResult YES
-~FreelyGivenConsentObligation(user, grindr).         %ForQueryResult NO
+%~ConsentGiven(user, grindr).                          %ForQueryResult YES
+%~FreelyGivenConsentObligation(user, grindr).         %ForQueryResult NO
 %InformedConsentObligation(grindr, user).              %missingInfo
 %DataSharingConsent(grindr, user).                     %missingInfo
+%~WithdrawingGivenConsent(user, grindr).               %threatmitigation
+~ConsentActivity(grindr,user).
 
 
 
