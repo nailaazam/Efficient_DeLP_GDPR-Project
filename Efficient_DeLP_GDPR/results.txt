@@ -173,3 +173,73 @@ Query to Knowledge base: ConsentCompliance(grindr,user)
 NO 252
 
 ---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 416
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 413
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 439
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 434
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+NO 442
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+YES 527
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+YES 560
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(grindr,user)
+YES 552
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+YES 486
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 371
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+UNDECIDED 15322
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 484
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 411
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 443
+
+---End of test-cases---
