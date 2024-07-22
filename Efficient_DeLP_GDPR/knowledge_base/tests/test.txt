@@ -12,7 +12,7 @@ GivenByDelegation(Y, X) <- ConsentStatusGivenByDelegation(Y, X).
 
 %DataSubject
 ConsentCompliance(X, Y) -< MinorDataSubject(M), Guardians(G), GivenConsentByGuardians(G, X).
-~GivenConsentByGuardians(G, X) <- ~ConsentForProcessingPersonalData(X, G).
+~GivenConsentByGuardians(G, X) <- ~ConsentForProcessingPersonalData(X, M).
 
 %Status
 ~ConsentCompliance(X, Y) -< ~ConsentStatus(X, Y).
@@ -56,9 +56,10 @@ ConsentActivity(X, Y) <- WithdrawingGivenConsent(Y, X).
 
 %PersonalData
 ~ConsentCompliance(X, Y) -< ~PersonalDataForConsent(Y, X).
-PersonalDataForConsent(Y, X) <- PersonalData(Y). 
-PersonalData(Y) <- Name(Y), ContactInformation(Y), HealthData(Y). 
-
+PersonalDataForConsent(Y, X) <- hasPersonalData(Y). 
+hasPersonalData(Y) <- hasName(Y), hasContactInformation(Y).
+hasPersonalData(Y) <- SensitivePersonalData(Y). 
+SensitivePersonalData(Y) <- hasHealthData(Y).
 
 % ConsentContext
 ~ConsentCompliance(X, Y) -< ~ContextForConsent(X, Y).
@@ -93,7 +94,7 @@ PersonalData(Y) <- Name(Y), ContactInformation(Y), HealthData(Y).
 %FitbitExample
 ~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForExternalProcessing(X, Y).
 ~ConsentForExternalProcessing(X, Y) <- ~DataSharingConsent(X, Y).
-ConsentForExternalProcessing(X, Y) <- ThirdParty(Z), DataTransfer(X, Z).
+~ConsentForExternalProcessing(X, Y) <- ~DataSharingConsent(X, Y), ThirdParty(Z), ~DataTransfer(X, Z).
 ~ConsentForExternalProcessing(X, Y) <- ~SpecifyRoleOfThirdPartiesForExternalProcessing(X, Z).
 ~SpecifyRoleOfThirdPartiesForExternalProcessing(X, Z) <- ~SpecifyCorporateAffiliates(X, Y).
 ~SpecifyRoleOfThirdPartiesForExternalProcessing(X, Z) <- ~SpecifyServiceProviders(X, Y).
@@ -107,10 +108,6 @@ ConsentForProcessingPersonalData(X, Y) <- ConsentForDataErasure(X, Y).
 ConsentForDataErasure(X, Y) <- DeleteData(X, Y),  DeletionPeriodUpTo90Days(X, Y).
 ~CanBeWithdrawnEasilyConsentObligation(Y, X) <- DeletionPeriodUpTo90Days(X, Y).
 
-ConsentCompliance(X,Y) -< ~DeletionPeriodUpTo90Days(X, Y), ConsentForDataErasure(X, Y).
-~ConsentCompliance(X,Y) -< DeletionPeriodUpTo90Days(X, Y), ~SpecifyCorporateAffiliates(X, Y).
-ConsentCompliance(X,Y) -< CanBeWithdrawnEasilyConsentObligation(Y, X), SpecifyCorporateAffiliates(X, Y).
-
 ConsentCompliance(X,Y) -< SpecifyCorporateAffiliates(X, Y), ConsentForDataErasure(X, Y).
 ~ConsentCompliance(X,Y) -< ~SpecifyCorporateAffiliates(X, Y), DeletionPeriodUpTo90Days(X, Y).
 ConsentCompliance(X,Y) -< CanBeWithdrawnEasilyConsentObligation(Y, X), ~DeletionPeriodUpTo90Days(X, Y).
@@ -118,10 +115,10 @@ ConsentCompliance(X,Y) -< CanBeWithdrawnEasilyConsentObligation(Y, X), ~Deletion
 %Facts
 DataSubject(user).
 DataController(fitbit).
-%GivenConsent(user, fitbit).                    %ForQueryResult YES
-%~SpecifyServiceProviders(fitbit, user).        %ForQueryResult NO
-DeletionPeriodUpTo90Days(fitbit, user).         %missingInfo
-~SpecifyCorporateAffiliates(fitbit, user).     
+GivenConsent(user, fitbit).                    %ForQueryResult YES
+~SpecifyServiceProviders(fitbit, user).        %ForQueryResult NO
+%DeletionPeriodUpTo90Days(fitbit, user).         %missingInfo
+%~SpecifyCorporateAffiliates(fitbit, user).     
 
 
 

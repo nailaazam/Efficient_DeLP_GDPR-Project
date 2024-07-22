@@ -243,3 +243,13 @@ Query to Knowledge base: ConsentCompliance(fitbit,user)
 NO 443
 
 ---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 533
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+YES 620
+
+---End of test-cases---
