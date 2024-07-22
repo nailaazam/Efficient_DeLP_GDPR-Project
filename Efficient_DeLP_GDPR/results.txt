@@ -253,3 +253,38 @@ Query to Knowledge base: ConsentCompliance(fitbit,user)
 YES 620
 
 ---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+UNDECIDED 14406
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 717
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 489
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 506
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 445
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 373
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 371
+
+---End of test-cases---
