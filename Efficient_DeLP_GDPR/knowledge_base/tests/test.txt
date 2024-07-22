@@ -98,7 +98,7 @@ SensitivePersonalData(Y) <- hasHealthData(Y).
 ~ConsentForExternalProcessing(X, Y) <- ~SpecifyRoleOfThirdPartiesForExternalProcessing(X, Z).
 ~SpecifyRoleOfThirdPartiesForExternalProcessing(X, Z) <- ~SpecifyCorporateAffiliates(X, Y).
 ~SpecifyRoleOfThirdPartiesForExternalProcessing(X, Z) <- ~SpecifyServiceProviders(X, Y).
-~FreelyGivenConsentObligation(X, Y) <- ~ConsentForExternalProcessing(X, Y).
+~ConsentForExternalProcessing(X, Y) <- ~FreelyGivenConsentObligation(X, Y).
 ~ConsentForExternalProcessing(X, Y) <- ~SpecifyThirdCountriesForDataTransfer(X, Y).
 
 ~Transparency(X, Y) <- ~SpecifyRoleOfThirdPartiesForExternalProcessing(X, Z), ~SpecifyThirdCountriesForDataTransfer(X, Y).
@@ -108,6 +108,7 @@ ConsentForProcessingPersonalData(X, Y) <- ConsentForDataErasure(X, Y).
 ConsentForDataErasure(X, Y) <- DeleteData(X, Y),  DeletionPeriodUpTo90Days(X, Y).
 ~CanBeWithdrawnEasilyConsentObligation(Y, X) <- DeletionPeriodUpTo90Days(X, Y).
 
+%rules
 ConsentCompliance(X,Y) -< SpecifyCorporateAffiliates(X, Y), ConsentForDataErasure(X, Y).
 ~ConsentCompliance(X,Y) -< ~SpecifyCorporateAffiliates(X, Y), DeletionPeriodUpTo90Days(X, Y).
 ConsentCompliance(X,Y) -< CanBeWithdrawnEasilyConsentObligation(Y, X), ~DeletionPeriodUpTo90Days(X, Y).
