@@ -12,11 +12,6 @@ HumanitarianEmergency(Y) <- IncapableOfGivingConsent(Y, X).
 ~VitalInterestCompliance(X, Y) -< ~ExplicitConsent(Y, X).
 ExplicitConsent(Y, X) <- ~IncapableOfGivingConsent(Y, X).
 
-
-
-
-
-
 DataSubject(patient1).
 DataSubject(patient2).
 DataSubject(patient3).

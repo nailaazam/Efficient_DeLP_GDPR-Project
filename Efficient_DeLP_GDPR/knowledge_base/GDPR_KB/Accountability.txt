@@ -3,7 +3,7 @@ Accountability(X, Y) -< DataController(X), DataSubject(Y), ReportDataBreachToSA(
 
 ~Accountability(X, Y) <- ~ComplainDataBreachToSA(X, Y).
 
-~Accountability(X, Y) <- ProcessData(X, Y).
+~Accountability(X, Y) <- ~ProcessData(X, Y).
 ProcessData(X, Y) -< LigitimateInterest(X, Y).
 LigitimateInterest(X, Y) <- ConsentGiven(X, Y).
  
