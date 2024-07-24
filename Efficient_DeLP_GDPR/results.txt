@@ -288,3 +288,33 @@ Query to Knowledge base: ConsentCompliance(fitbit,user)
 NO 371
 
 ---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 323
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 228
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 275
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 259
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 361
+
+---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 349
+
+---End of test-cases---
