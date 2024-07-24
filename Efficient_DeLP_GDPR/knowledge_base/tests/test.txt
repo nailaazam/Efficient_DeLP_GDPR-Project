@@ -92,9 +92,9 @@ SensitivePersonalData(Y) <- hasHealthData(Y).
 ~ConsentForProcessingPersonalData(X, Y) <- ThirdParty(Z), ~SpecifyRoleOfThirdPartiesForProcessingData(X, Z).
 
 %FitbitExample
-~ConsentForProcessingPersonalData(X, Y) -< ~ConsentForExternalProcessing(X, Y).
-ConsentForExternalProcessing(X, Y) <- ThirdParty(Z), DataTransfer(X, Z).
-~ConsentForExternalProcessing(X, Y) <- ~SpecifyThirdCountriesForDataTransfer(X, Y).
+ConsentForProcessingPersonalData(X, Y) -< ConsentForExternalProcessing(X, Y).
+ConsentForExternalProcessing(X, Y) -< ThirdParty(Z), DataTransfer(X, Z).
+~ConsentForExternalProcessing(X, Y) -< ~SpecifyThirdCountriesForDataTransfer(X, Y).
 
 %fitbit does not provide opt-out option to stop external processing
 ~ConsentForExternalProcessing(X, Y) <- ~FreelyGivenConsentObligation(X, Y).
@@ -102,19 +102,24 @@ ConsentForExternalProcessing(X, Y) <- ThirdParty(Z), DataTransfer(X, Z).
 ~ConsentForExternalProcessing(X, Y) <- ~SpecifySpecificInstanceOfPurpose(X, Y).
 ConsentForProcessingPersonalData(X, Y) <- ConsentForDataErasure(X, Y), DeletionPeriodUpTo90Days(X, Y).
 ~CanBeWithdrawnEasilyConsentObligation(Y, X) <- DeletionPeriodUpTo90Days(X, Y).
+
 ~ConsentForExternalProcessing(X, Y) <- ~CanBeWithdrawnEasilyConsentObligation(Y, X).
+~ConsentForExternalProcessing(X, Y) <- ~InformedConsentObligation(X, Y).
+~ConsentForExternalProcessing(X, Y) <- ~ConsentForSharingSensitivePersonalData(Y, X).
+ConsentForSharingSensitivePersonalData(Y, X) <- hasHealthData(Y).
+~ConsentForExternalProcessing(X, Y) <- ~RightToAccessPersonalData(Y, X).
 
 %rules
-ConsentCompliance(X,Y) -< SpecifyThirdCountriesForDataTransfer(X, Y), ConsentForDataErasure(X, Y).
-~ConsentCompliance(X,Y) -< ~SpecifyThirdCountriesForDataTransfer(X, Y), ~DataSharingConsent(X, Y).
-ConsentCompliance(X,Y) -< CanBeWithdrawnEasilyConsentObligation(Y, X), DataSharingConsent(X, Y).
+ConsentCompliance(X,Y) -< SpecifyThirdCountriesForDataTransfer(X, Y),  DataSharingConsent(X, Y).
+~ConsentCompliance(X,Y) -< ~SpecifyThirdCountriesForDataTransfer(X, Y), ~ConsentForDataErasure(X, Y).
+ConsentCompliance(X,Y) -< CanBeWithdrawnEasilyConsentObligation(Y, X),  ConsentForDataErasure(X, Y).
 
 %Facts
 DataSubject(user).
 DataController(fitbit).
 %GivenConsent(user, fitbit).                                %ForQueryResult YES
 %DeletionPeriodUpTo90Days(fitbit, user).                    %ForQueryResult NO
-~DataSharingConsent(fitbit, user).                              %missingInfo  
+ConsentForDataErasure(fitbit, user).                        %missingInfo  
 
    
 

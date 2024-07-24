@@ -318,3 +318,8 @@ Query to Knowledge base: ConsentCompliance(fitbit,user)
 NO 349
 
 ---End of test-cases---
+--------Knowledge Base test-case: test.txt
+Query to Knowledge base: ConsentCompliance(fitbit,user)
+NO 278
+
+---End of test-cases---
