@@ -1,1 +1,1 @@
-ConsentCompliance(fitbit,user)
+ConsentForExternalProcessing(fitbit,user)
