@@ -52,7 +52,7 @@ ConsentActivity(X, Y) <- WithdrawingGivenConsent(Y, X).
 ~ObligationForObtainingConsent(X, Y) <- ~ShouldBeDemonstrable(X, Y).
 ~ObligationForObtainingConsent(X, Y) <- ~ShouldBeDistinguishableFromOtherMatters(X, Y).
 ~ObligationForObtainingConsent(X, Y) <- ~NotFromSilenceOrInactivityConsentObligation(X, Y).
-~ObligationForObtainingConsent(X, Y) <- ~ValidConsent(X, Y).
+%~ObligationForObtainingConsent(X, Y) <- ~ValidConsent(X, Y).
 
 %PersonalData
 ~ConsentCompliance(X, Y) -< ~PersonalDataForConsent(Y, X).
@@ -119,23 +119,24 @@ ConsentCompliance(X,Y) -< ~DeletePersonalInformation(X, Y), ~ProcessingForDataTr
 ConsentCompliance(X,Y) -< FreelyGivenConsentObligation(X, Y), ProcessingForDataTransfer(X, Z).
 
 %threatmitigation
-~ConsentCompliance(X,Y) <- ~ConsentForExternalProcessing(X,Y).
-~ConsentForExternalProcessing(X,Y) <- ~RightOfAccess(X, Y).
-~RightOfAccess(X, Y) <- ~GivesRightToObtainCopyOfPersonalData(X, Y).
+ConsentForExternalProcessing(X, Y) -< PersonalData(Y), ConsentForProcessingPersonalData(X, Y).
+~ConsentForExternalProcessing(X, Y) <- ~RightForAccess(X, Y).
+~RightForAccess(X, Y) <- ~GivesRightToObtainCopyOfPersonalData(X, Y).
+
 
 
 %Facts
 DataSubject(user).
 DataController(fitbit).
-%GivenConsent(user, fitbit).                                %ForQueryResult YES
+GivenConsent(user, fitbit).                                %ForQueryResult YES
 %DeletionPeriodUpTo90Days(fitbit, user).                    %No 
-%~ProvideDetailsOfTransfersOfPersonalDataToThirdCountries(fitbit, user). %conflicting with ConsentGiven
+~ProvideDetailsOfTransfersOfPersonalDataToThirdParties(fitbit, user). %conflicting with ConsentGiven
 
 %ThirdParty(processor).
 %DeletePersonalInformation(fitbit, user).                    %missing info
 %ProcessingForDataTransfer(fitbit, processor).               %missing info
    
-~GivesRightToObtainCopyOfPersonalData(fitbit, processor).         %threatmitigation
+%~GivesRightToObtainCopyOfPersonalData(fitbit, user).         %threatmitigation
 
 
 
