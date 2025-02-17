@@ -1,0 +1,8 @@
+~ConsentCompliance(fitbit, user) -< ~ValidConsent(X, Y), GivenConsent(Y, X).
+~ValidConsent(X, Y) <- ~Implicit(X, Y).
+
+
+%Facts
+DataSubject(user).
+DataController(fitbit).
+~Implicit(fitbit, user).

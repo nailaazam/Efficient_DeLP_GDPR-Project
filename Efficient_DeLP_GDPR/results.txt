@@ -1,30 +1,15 @@
 --------Knowledge Base test-case: test.txt
-Query to Knowledge base: ConsentForExternalProcessing(fitbit,user)
-YES 65
+Query to Knowledge base: ConsentCompliance(fitbit, user)
+NO 57
 
 ---End of test-cases---
 --------Knowledge Base test-case: test.txt
-Query to Knowledge base: ConsentForExternalProcessing(fitbit,user)
-YES 57
+Query to Knowledge base: ConsentCompliance(fitbit, user)
+NO 53
 
 ---End of test-cases---
 --------Knowledge Base test-case: test.txt
-Query to Knowledge base: ConsentForExternalProcessing(fitbit,user)
-YES 62
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: ConsentForExternalProcessing(fitbit,user)
-YES 232
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: ConsentForExternalProcessing(fitbit,user)
-NO 131
-
----End of test-cases---
---------Knowledge Base test-case: test.txt
-Query to Knowledge base: ConsentCompliance(fitbit,user)
-NO 340
+Query to Knowledge base: ConsentCompliance(fitbit, user)
+NO 38
 
 ---End of test-cases---

@@ -1,0 +1,8 @@
+~ConsentCompliance(fitbit, user) -< ~ValidConsent(X, Y), ~GivenConsentThirdParties(Y, X).
+~ValidConsent(X, Y) <- ~GivenByDelegation(X, Y).
+
+
+%Facts
+DataSubject(user).
+DataController(fitbit).
+~GivenByDelegation(fitbit, user).

@@ -1,0 +1,164 @@
+ConsentCompliance(X, Y) -< DataSubject(Y), DataController(X), GivenConsent(Y, X).
+
+~GivenConsent(Y, X) <-  ~ExplicitlyGiven(Y, X).
+~ExplicitlyGiven(Y, X) <- ~ConsentStatusExplicitlyGiven(Y, X).
+~ConsentStatusExplicitlyGiven(Y, X) <- ~StatusValidForProcessing(X, Y).
+
+~StatusValidForProcessing(X, Y) <- ~ExplicitlyGiven(Y, X).
+~StatusValidForProcessing(X, Y) <- ~ImplicitlyGiven(Y, X).
+~ImplicitlyGiven(Y, X) <- ConsentStatusImplicitlyGiven(Y, X).
+~StatusValidForProcessing(X, Y) <- ~GivenByDelegation(Y, X).
+GivenByDelegation(Y, X) <- ConsentStatusGivenByDelegation(Y, X).
+
+%DataSubject
+ConsentCompliance(X, Y) -< MinorDataSubject(M), Guardians(G), GivenConsentByGuardians(G, X).
+~GivenConsentByGuardians(G, X) <- ~ConsentForProcessingPersonalData(X, M).
+
+%Status
+~ConsentCompliance(X, Y) -< ~ConsentStatus(X, Y).
+ConsentStatus(X, Y) <- StatusValidForProcessing(X, Y).
+ConsentStatus(X, Y) <- StatusInvalidForProcessing(X, Y).
+
+~StatusInvalidForProcessing(X, Y) <- ~ConsentStatusExpired(X, Y).
+~StatusInvalidForProcessing(X, Y) <- ~ConsentStatusInvalidated(X, Y).
+~StatusInvalidForProcessing(X, Y) <- ~ConsentStatusNotGiven(Y, X).
+~StatusInvalidForProcessing(X, Y) <- ~ConsentStatusRefused(Y, X).
+~StatusInvalidForProcessing(X, Y) <- ~ConsentStatusRequested(X, Y).
+~StatusInvalidForProcessing(X, Y) <- ~ConsentStatusUnknown(X, Y).
+~StatusInvalidForProcessing(X, Y) <- ~ConsentStatusWithdrawn(Y, X).
+
+%Purpose
+~ConsentCompliance(X, Y) -<  ~PurposeForConsent(X, Y).
+~PurposeForConsent(X, Y) <- ~SpecifySpecificInstanceOfPurpose(X, Y).
+~PurposeForConsent(X, Y) <- ThirdParty(Z), ~SpecifyPurposeAssociatedWithThirdParties(X, Z).
+
+~ConsentCompliance(X, Y) -< ~ValidConsent(X, Y).
+~ValidConsent(X, Y) <- ~FreelyGiven(Y, X).
+~FreelyGiven(Y, X) <- ~FreelyGivenConsentObligation(X, Y). 
+~ValidConsent(X, Y) <- ~Informed(X, Y).
+~Informed(X, Y) <- ~InformedConsentObligation(X, Y).
+~ValidConsent(X, Y) <- ~Specific(X, Y).
+~Specific(X, Y) <- SpecificConsentObligation(X, Y).
+~ValidConsent(X, Y) <- ~VoluntaryAndoptIn(X, Y).
+~VoluntaryAndoptIn(X, Y) <- ~VoluntaryOptInConsentObligation(X, Y).
+
+
+~ConsentCompliance(X, Y) -< ~ConsentActivity(X, Y), ~ObligationForObtainingConsent(X, Y).
+ConsentActivity(X, Y) <- ObtainingConsentFromDataSubject(X, Y).
+ConsentActivity(X, Y) <- WithdrawingGivenConsent(Y, X). 
+
+~ObligationForObtainingConsent(X, Y) <- ~CanBeWithdrawnEasilyConsentObligation(Y, X).
+~ObligationForObtainingConsent(X, Y) <- ~ClearExplanationOfProcessingConsentObligation(X, Y).
+~ObligationForObtainingConsent(X, Y) <- ~ShouldBeDemonstrable(X, Y).
+~ObligationForObtainingConsent(X, Y) <- ~ShouldBeDistinguishableFromOtherMatters(X, Y).
+~ObligationForObtainingConsent(X, Y) <- ~NotFromSilenceOrInactivityConsentObligation(X, Y).
+%~ObligationForObtainingConsent(X, Y) <- ~ValidConsent(X, Y).
+
+%PersonalData
+~ConsentCompliance(X, Y) -< ~PersonalDataForConsent(Y, X).
+PersonalDataForConsent(Y, X) <- hasPersonalData(Y). 
+hasPersonalData(Y) <- hasName(Y), hasContactInformation(Y).
+hasPersonalData(Y) <- SensitivePersonalData(Y). 
+SensitivePersonalData(Y) <- hasHealthData(Y).
+
+% ConsentContext
+~ConsentCompliance(X, Y) -< ~ContextForConsent(X, Y).
+~ContextForConsent(X, Y) <- ~SpecifyConsentLocation(X, Y).
+~ContextForConsent(X, Y) <- ~SpecifyConsentMedium(X, Y).
+~ContextForConsent(X, Y) <- ~SpecifyConsentTime(X, Y).
+~ContextForConsent(X, Y) <- ~SpecifyConsentExpiry(X, Y).
+
+% ConsentForProcessingPersonalData
+~ConsentCompliance(X, Y) -< ~ConsentForProcessingPersonalData(X, Y).
+
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataAdaptation(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataAlignment(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataAlteration(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataCollection(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataCombination(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataConsultation(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataDestruction(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataDisclosurebyTransmission(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataDissemination(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~DataOrganisation(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataErasure(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataRecording(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataRestriction(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataRetrieval(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~DataSharingConsent(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataStorage(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataStructuring(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForDataUse(X, Y).
+~ConsentForProcessingPersonalData(X, Y) <- ThirdParty(Z), ~SpecifyRoleOfThirdPartiesForProcessingData(X, Z).
+
+%FitbitExample
+~ConsentForProcessingPersonalData(X, Y) <- ~ConsentForExternalProcessing(X, Y).
+ConsentForExternalProcessing(X, Y) <- ThirdParty(Z), ProcessingForDataTransfer(X, Z).
+
+~ConsentForExternalProcessing(X, Y) <- ~FreelyGivenConsentObligation(X, Y).
+~FreelyGivenConsentObligation(X, Y) <- ~AllowSeparateConsentToBeGivenForSpecificDataProcessing(X, Y). 
+~ConsentForExternalProcessing(X, Y) <- ~DataSharingConsent(X, Y).
+~ConsentForExternalProcessing(X, Y) <- ~SpecifySpecificInstanceOfPurpose(X, Y).
+~ConsentForExternalProcessing(X, Y) <-  RightToDataErasure(X, Y).
+RightToDataErasure(X, Y) <- DeletePersonalInformation(X, Y).
+RightToDataErasure(X, Y) <- DeletionPeriodUpTo90Days(X, Y).
+~CanBeWithdrawnEasilyConsentObligation(Y, X) <-  DeletePersonalInformation(X, Y), DeletionPeriodUpTo90Days(X, Y).
+~ConsentForExternalProcessing(X, Y) <- ~CanBeWithdrawnEasilyConsentObligation(Y, X).
+~ConsentForExternalProcessing(X, Y) <- ~ConsentForSharingSensitivePersonalData(Y, X).
+ConsentForSharingSensitivePersonalData(Y, X) <- hasHealthData(Y).
+~ConsentForExternalProcessing(X, Y) <- ~RightToAccessPersonalData(Y, X).
+
+%conflictingRules example
+~ConsentForExternalProcessing(X, Y) <- ~InformedConsentObligation(X, Y).
+~InformedConsentObligation(X, Y) <- ~InformRecipientsOfPersonalData(X, Y).
+~InformRecipientsOfPersonalData(X, Y) <- ~ProvideDetailsOfTransfersOfPersonalDataToThirdParties(X, Y).
+
+%missing info rules
+ConsentCompliance(X,Y) -<  DeletePersonalInformation(X, Y), FreelyGivenConsentObligation(X, Y).
+ConsentCompliance(X,Y) -< ~DeletePersonalInformation(X, Y), ~ProcessingForDataTransfer(X, Z).
+ConsentCompliance(X,Y) -< FreelyGivenConsentObligation(X, Y), ProcessingForDataTransfer(X, Z).
+
+%threatmitigation
+ConsentForExternalProcessing(X, Y) -< PersonalData(Y), ConsentForProcessingPersonalData(X, Y).
+~ConsentForExternalProcessing(X, Y) <- ~RightForAccess(X, Y).
+~RightForAccess(X, Y) <- ~GivesRightToObtainCopyOfPersonalData(X, Y).
+
+
+
+%Facts
+DataSubject(user).
+DataController(fitbit).
+GivenConsent(user, fitbit).                                %ForQueryResult YES
+%DeletionPeriodUpTo90Days(fitbit, user).                    %No 
+~ProvideDetailsOfTransfersOfPersonalDataToThirdParties(fitbit, user). %conflicting with ConsentGiven
+
+%ThirdParty(processor).
+%DeletePersonalInformation(fitbit, user).                    %missing info
+%ProcessingForDataTransfer(fitbit, processor).               %missing info
+   
+%~GivesRightToObtainCopyOfPersonalData(fitbit, user).         %threatmitigation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

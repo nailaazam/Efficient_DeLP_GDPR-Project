@@ -1,1 +1,1 @@
-ConsentCompliance(fitbit,user)
+ConsentCompliance(fitbit, user)

@@ -1,5 +1,5 @@
 ~ConsentCompliance(fitbit, user) -< ~ValidConsent(X, Y).
-ConsentCompliance(fitbit, user) -< GivenConsent(X, Y).
+~ConsentCompliance(fitbit, user) -< ~GivenConsent(Y, X).
 ~ValidConsent(X, Y) -< ~FreelyGiven(Y, X).
 
 %Facts
